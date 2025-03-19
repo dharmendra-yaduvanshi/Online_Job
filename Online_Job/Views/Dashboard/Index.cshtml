@@ -1,0 +1,44 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@{
+    ViewData["Title"] = "Recruiter Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<a class="btn btn-danger" asp-controller="Account" asp-action="Logout">Logout</a>
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-3 sidebar bg-primary text-white vh-100">
+            <div class="logo text-center py-3">
+                <img src="~/img/logo.png" alt="Job Portal" class="img-fluid" style="max-width: 150px;">
+            </div>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a asp-controller="Dashboard" asp-action="ManageJobs" class="nav-link text-white">
+                        <i class="bi bi-briefcase"></i> Manage Jobs
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a asp-controller="Dashboard" asp-action="AddJob" class="nav-link text-white">
+                        <i class="bi bi-plus-circle"></i> Add Job
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a asp-controller="Dashboard" asp-action="ViewApplications" class="nav-link text-white">
+                        <i class="bi bi-person"></i> View Applications
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-md-9 bg-light p-4">
+            <h2 class="text-primary">Welcome to Job Portal Dashboard</h2>
+            <p>Manage your job postings and applications with ease.</p>
+        </div>
+    </div>
+</div>

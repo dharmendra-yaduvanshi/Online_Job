@@ -1,0 +1,76 @@
+﻿@{
+    ViewData["Title"] = "Add Job";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-3 d-none d-md-block bg-dark text-white p-3">
+            <partial name="_Sidebar" />
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-md-9 p-4">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="text-center mb-0"><i class="fas fa-briefcase"></i> Add Job</h2>
+                </div>
+                <div class="card-body">
+                    <form method="post" asp-controller="Dashboard" asp-action="SaveJob">
+                        <div class="mb-3">
+                            <label for="jobTitle" class="form-label"><i class="fas fa-file-signature"></i> Job Title</label>
+                            <input type="text" id="jobTitle" name="jobTitle" class="form-control" placeholder="Enter job title" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="jobDescription" class="form-label"><i class="fas fa-align-left"></i> Job Description</label>
+                            <textarea id="jobDescription" name="jobDescription" class="form-control" rows="3" placeholder="Enter job description" required></textarea>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label for="category" class="form-label"><i class="fas fa-layer-group"></i> Job Category</label>
+                                <select id="category" name="category" class="form-select">
+                                    <option value="Programming">Programming</option>
+                                    <option value="Marketing">Marketing</option>
+                                    <option value="Design">Design</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="location" class="form-label"><i class="fas fa-map-marker-alt"></i> Job Location</label>
+                                <select id="location" name="location" class="form-select">
+                                    <option value="Bangalore">Bangalore</option>
+                                    <option value="New York">New York</option>
+                                    <option value="London">London</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="level" class="form-label"><i class="fas fa-chart-line"></i> Job Level</label>
+                                <select id="level" name="level" class="form-select">
+                                    <option value="Senior Level">Senior Level</option>
+                                    <option value="Mid Level">Mid Level</option>
+                                    <option value="Entry Level">Entry Level</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mb-3 mt-3">
+                            <label for="salary" class="form-label"><i class="fas fa-dollar-sign"></i> Salary</label>
+                            <input type="number" id="salary" name="salary" class="form-control" value="0" required>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success"><i class="fas fa-plus"></i> Add Job</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Include FontAwesome for Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
