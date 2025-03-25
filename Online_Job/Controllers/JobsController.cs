@@ -2,6 +2,7 @@
 using Online_Job.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 public class JobsController : Controller
 {
@@ -10,8 +11,7 @@ public class JobsController : Controller
     public IActionResult Index(int page = 1)
     {
         var jobs = new List<Job>
-        {
-            new Job { Id = 1, Title = "Full Stack Developer", Location = "Pune", Level = "Senior",
+        { new Job { Id = 1, Title = "Full Stack Developer", Location = "Pune", Level = "Senior",
                       Description = "Responsible for frontend and backend tasks.", CompanyLogo = "/img/slack.png" },
             new Job { Id = 2, Title = "Cloud Engineer", Location = "Delhi", Level = "Senior",
                       Description = "Manage cloud infrastructure.", CompanyLogo = "/img/slack.png" },
@@ -58,5 +58,35 @@ public class JobsController : Controller
         ViewBag.TotalPages = (int)Math.Ceiling(jobs.Count / (double)JobsPerPage);
 
         return View(pagedJobs);
+    }
+
+    // Action to show the application page for a specific job
+    public IActionResult Apply(int jobId)
+    {
+        var job = new Job
+        {
+            Id = jobId,
+            Title = "Full Stack Developer", // Fetch job details based on jobId (this can come from a service or database)
+            Location = "Pune",
+            Level = "Senior",
+            Description = "Responsible for frontend and backend tasks.",
+            CompanyLogo = "/img/slack.png"
+        };
+
+        if (job == null)
+        {
+            return NotFound(); // Handle case when job is not found
+        }
+
+        return View(job); // Pass the job details to Apply.cshtml view
+    }
+
+    // POST action to handle the job application form submission
+    [HttpPost]
+    public IActionResult SubmitApplication(int jobId, string userName, string coverLetter)
+    {
+        // Handle job application logic (e.g., save to database, send confirmation, etc.)
+        TempData["Message"] = "Your application has been submitted successfully!";
+        return RedirectToAction("Index"); // Redirect back to the job listings page
     }
 }

@@ -61,7 +61,13 @@
                         <p><strong>@job.Location</strong> | @(job.Level ?? "Any") Level</p>
                         <p class="job-description">@job.Description</p>
                         <div class="button-group">
-                            <button class="btn btn-primary">Apply Now</button>
+                            <!-- Apply Now button -->
+                            <form asp-action="Apply" method="get">
+                                <input type="hidden" name="jobId" value="@job.Id" />
+                                <button type="submit" class="btn btn-primary">Apply Now</button>
+                            </form>
+
+                            <!-- Learn More button -->
                             <button class="btn btn-outline-secondary">Learn More</button>
                         </div>
                     </div>
@@ -84,7 +90,7 @@
                     <i class="bi bi-arrow-right-circle"></i> <!-- Bootstrap Icon: Right Arrow -->
                 </a>
             }
-        </div>  
+        </div>
     }
     else
     {
