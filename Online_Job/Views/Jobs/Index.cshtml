@@ -29,9 +29,9 @@
 <!-- ✅ Trusted Companies -->
 <div class="container text-center mt-4">
     <p>Trusted by</p>
-    <img src="~/img/microsoft.png" alt="Microsoft">
-    <img src="~/img/walmart.png" alt="Walmart">
-    <img src="~/img/accenture.png" alt="Accenture">
+    <img src="~/img/microsoft.png" alt="Microsoft" class="trusted-logo">
+    <img src="~/img/walmart.png" alt="Walmart" class="trusted-logo">
+    <img src="~/img/accenture.png" alt="Accenture" class="trusted-logo">
 </div>
 
 <!-- ✅ Job Categories -->
@@ -52,7 +52,7 @@
     @if (Model != null && Model.Any())
     {
         <div class="row">
-            @foreach (var job in Model.Take(6))
+            @foreach (var job in Model)
             {
                 <div class="col-lg-4 col-md-6 col-sm-12">
                     <div class="job-card">
@@ -68,6 +68,23 @@
                 </div>
             }
         </div>
+
+        <!-- Pagination Controls -->
+        <div class="d-flex justify-content-center mt-4">
+            @if (ViewBag.CurrentPage > 1)
+            {
+                <a href="@Url.Action("Index", new { page = ViewBag.CurrentPage - 1 })" class="btn btn-outline-primary mx-2">
+                    <i class="bi bi-arrow-left-circle"></i> <!-- Bootstrap Icon: Left Arrow -->
+                </a>
+            }
+
+            @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+            {
+                <a href="@Url.Action("Index", new { page = ViewBag.CurrentPage + 1 })" class="btn btn-outline-primary mx-2">
+                    <i class="bi bi-arrow-right-circle"></i> <!-- Bootstrap Icon: Right Arrow -->
+                </a>
+            }
+        </div>  
     }
     else
     {
@@ -94,12 +111,12 @@
     }
 
     /* Trusted Companies */
-    .trusted-section img {
+    .trusted-logo {
         height: 40px;
         margin: 10px 15px;
     }
 
-    /* Categories */
+    /* Job Categories */
     .categories-section {
         text-align: center;
         margin-bottom: 30px;
@@ -136,5 +153,21 @@
         gap: 10px;
         justify-content: center;
         margin-top: 15px;
+    }
+
+    /* Pagination Styles */
+    .pagination {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    /* Miscellaneous */
+    h2 {
+        margin-bottom: 30px;
+    }
+
+    .text-center {
+        text-align: center;
     }
 </style>
