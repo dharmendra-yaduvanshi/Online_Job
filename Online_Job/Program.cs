@@ -1,47 +1,22 @@
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using System;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddControllersWithViews();
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+// Add session services
+builder.Services.AddDistributedMemoryCache(); // Use in-memory cache for sessions
+builder.Services.AddSession(options =>
 {
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
-}
-
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-
-app.UseRouting();
-
-app.UseAuthorization();
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-
-app.Run();
-app.UseStaticFiles();
-app.UseRouting();
-app.UseAuthorization();
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Jobs}/{action=Index}/{id?}");
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllerRoute(
-        name: "default",
-        pattern: "{controller=Dashboard}/{action=ManageJobs}/{id?}");
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Set the session timeout duration
+    options.Cookie.HttpOnly = true; // Ensure cookies are only accessible via HTTP
 });
 
-
-// Add services
+// Add services to the container (Controllers with Views)
 builder.Services.AddControllersWithViews();
+
+// Add authentication and authorization services (if needed)
 builder.Services.AddAuthentication("CookieAuth")
     .AddCookie("CookieAuth", config =>
     {
@@ -49,9 +24,34 @@ builder.Services.AddAuthentication("CookieAuth")
     });
 
 builder.Services.AddAuthorization();
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+}
+else
+{
+    app.UseExceptionHandler("/Home/Error");
+    app.UseHsts();
+}
+
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseRouting();
+
+// Enable session middleware
+app.UseSession();
+
+// Enable authentication and authorization middleware
+app.UseAuthentication();
+app.UseAuthorization();
+
+// Map controller routes
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+
 app.Run();
-
-
-
-
-

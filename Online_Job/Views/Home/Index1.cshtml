@@ -1,0 +1,18 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@{
+    var username = ViewBag.Username as string;  // Retrieve username from ViewBag
+}
+
+<!-- Show the username if it's not empty -->
+@if (!string.IsNullOrEmpty(username))
+{
+    <span class="navbar-text">Hello, @username</span>
+}
+else
+{
+    <span class="navbar-text">Hello, Guest</span>
+}

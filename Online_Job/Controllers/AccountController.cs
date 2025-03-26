@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
+using System;
 
 namespace Online_Job.Controllers
 {
@@ -15,32 +17,20 @@ namespace Online_Job.Controllers
         [HttpPost]
         public IActionResult Login(string username, string password)
         {
-            if (username == "admin" && password == "password") // Replace with database validation
+            // Example: Retrieve stored username and password from session (replace with real validation)
+            var storedUsername = HttpContext.Session.GetString("Username");
+            var storedPassword = HttpContext.Session.GetString("Password");
+
+            // Validate the entered credentials
+            if (username == storedUsername && password == storedPassword)
             {
-                return RedirectToAction("Index", "Home"); // Redirect to homepage after login
+                // If credentials are correct, store username in session and redirect to home page
+                HttpContext.Session.SetString("Username", username);
+                return RedirectToAction("Index", "Home");
             }
 
+            // If login fails, show error
             ViewBag.Error = "Invalid login credentials.";
-            return View();
-        }
-
-        // ✅ GET: Show Recruiter Login Page
-        [HttpGet]
-        public IActionResult RecruiterLogin()
-        {
-            return View();
-        }
-
-        // ✅ POST: Handle Recruiter Login
-        [HttpPost]
-        public IActionResult RecruiterLogin(string email, string password)
-        {
-            if (email == "recruiter@example.com" && password == "password123") // Replace with database validation
-            {
-                return RedirectToAction("Dashboard", "Recruiter"); // Redirect to Recruiter Dashboard
-            }
-
-            ViewBag.Error = "Invalid email or password.";
             return View();
         }
 
@@ -55,12 +45,14 @@ namespace Online_Job.Controllers
         [HttpPost]
         public IActionResult Register(string username, string email, string password, string confirmPassword)
         {
+            // Validate that all fields are filled in
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(email))
             {
                 ViewBag.Error = "All fields are required!";
                 return View();
             }
 
+            // Check if passwords match
             if (password != confirmPassword)
             {
                 ViewBag.Error = "Passwords do not match!";
@@ -69,9 +61,15 @@ namespace Online_Job.Controllers
 
             try
             {
-                // TODO: Save user details in the database
+                // Normally, you would save the user to the database here
+                // Example: SaveUserToDatabase(username, email, password);
 
-                return RedirectToAction("Login"); // Redirect to login page after successful registration
+                // After successful registration, store the credentials in session (not recommended for real apps)
+                HttpContext.Session.SetString("Username", username); // Store username in session
+                HttpContext.Session.SetString("Password", password); // Store password in session (hashed passwords are recommended)
+
+                // Redirect to the login page after successful registration
+                return RedirectToAction("Login", "Account");
             }
             catch (Exception ex)
             {
@@ -80,40 +78,15 @@ namespace Online_Job.Controllers
             }
         }
 
-        // ✅ GET: Show Recruiter Registration Page
-        [HttpGet]
-        public IActionResult RecruiterRegister()
-        {
-            return View();
-        }
-
-        // ✅ POST: Handle Recruiter Registration
+        // ✅ POST: Logout User (Clear session data)
         [HttpPost]
-        public IActionResult RecruiterRegister(string companyName, string fullName, string email, string password, string confirmPassword)
+        public IActionResult Logout()
         {
-            if (string.IsNullOrEmpty(companyName) || string.IsNullOrEmpty(fullName) || string.IsNullOrEmpty(email))
-            {
-                ViewBag.Error = "All fields are required!";
-                return View();
-            }
+            // Clear session data (log out the user)
+            HttpContext.Session.Clear();
 
-            if (password != confirmPassword)
-            {
-                ViewBag.Error = "Passwords do not match!";
-                return View();
-            }
-
-            try
-            {
-                // TODO: Save recruiter details in the database
-
-                return RedirectToAction("RecruiterLogin"); // Redirect to recruiter login page
-            }
-            catch (Exception ex)
-            {
-                ViewBag.Error = "An error occurred: " + ex.Message;
-                return View();
-            }
+            // Redirect to login page after logging out
+            return RedirectToAction("Login");
         }
     }
 }
