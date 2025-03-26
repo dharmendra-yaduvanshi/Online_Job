@@ -2,15 +2,30 @@
 
 @{
     ViewData["Title"] = "Job Portal";
+
+    // Safely access session data and store it in a variable
+    var username = Context.Session.GetString("Username") ?? "Guest"; // Default to "Guest" if not set
 }
 
-<!-- ✅ Top Navigation -->
+@* <!-- ✅ Top Navigation -->
 <div class="container mt-3">
     <div class="d-flex justify-content-end">
-        <a class="btn btn-outline-primary mx-2" asp-controller="Account" asp-action="Login">Login</a>
-        <a class="btn btn-outline-success mx-2" asp-controller="Account" asp-action="RecruiterLogin">Recruiter Login</a>
+        <!-- Login and Recruiter Login Links -->
+        @if (string.IsNullOrEmpty(username) || username == "Guest")
+        {
+            <a class="btn btn-outline-primary mx-2" asp-controller="Account" asp-action="Login">Login</a>
+            <a class="btn btn-outline-success mx-2" asp-controller="Account" asp-action="RecruiterLogin">Recruiter Login</a>
+        }
+        else
+        {
+            <!-- Display Username and Logout Option -->
+            <span class="nav-link">Welcome, @username</span>
+            <form method="post" asp-action="Logout" style="display: inline;">
+                <button type="submit" class="btn btn-outline-danger me-2">Logout</button>
+            </form>
+        }
     </div>
-</div>
+</div> *@
 
 <!-- ✅ Hero Section with Search Form -->
 <div class="container">

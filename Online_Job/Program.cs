@@ -5,29 +5,22 @@ using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add session services
-builder.Services.AddDistributedMemoryCache(); // Use in-memory cache for sessions
-builder.Services.AddSession(options =>
-{
-    options.IdleTimeout = TimeSpan.FromMinutes(30); // Set the session timeout duration
-    options.Cookie.HttpOnly = true; // Ensure cookies are only accessible via HTTP
-});
-
-// Add services to the container (Controllers with Views)
+// Add services to the container.
 builder.Services.AddControllersWithViews();
 
-// Add authentication and authorization services (if needed)
-builder.Services.AddAuthentication("CookieAuth")
-    .AddCookie("CookieAuth", config =>
-    {
-        config.LoginPath = "/Account/RecruiterLogin"; // Redirect if not logged in
-    });
+// Add session services
+builder.Services.AddDistributedMemoryCache(); // Session uses in-memory cache
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Set session timeout
+    options.Cookie.HttpOnly = true;  // Ensure that the session cookie is only accessible by HTTP requests
+    options.Cookie.IsEssential = true; // Make the session cookie essential
+});
 
-builder.Services.AddAuthorization();
-
+// Build the app
 var app = builder.Build();
 
-// Configure the HTTP request pipeline
+// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
@@ -38,15 +31,13 @@ else
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-app.UseRouting();
-
 // Enable session middleware
 app.UseSession();
 
-// Enable authentication and authorization middleware
-app.UseAuthentication();
+// Other middlewares
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseRouting();
 app.UseAuthorization();
 
 // Map controller routes
