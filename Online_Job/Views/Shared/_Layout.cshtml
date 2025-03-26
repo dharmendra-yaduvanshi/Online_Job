@@ -1,11 +1,12 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Online_Job</title>
 
-    <!-- Bootstrap CSS (you can choose between CDN or local files) -->
+    <!-- Bootstrap CSS (CDN or local) -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
 
@@ -31,15 +32,15 @@
             }
     </style>
 </head>
-<body>
 
+<body>
     <!-- Header with Navbar -->
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Online_Job</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
@@ -55,21 +56,48 @@
                         </li>
                     </ul>
 
-                    <!-- Login/Recruiter Login or Welcome -->
+                    <!-- Login or Welcome Section -->
                     <div class="d-flex justify-content-end">
                         @if (string.IsNullOrEmpty(Context.Session.GetString("Username")))
                         {
                             <!-- Show Login and Recruiter Login Links if not logged in -->
                             <a class="btn btn-outline-primary mx-2" asp-controller="Account" asp-action="Login">Login</a>
-                            <a class="btn btn-outline-success mx-2" asp-controller="Account" asp-action="RecruiterLogin">Recruiter Login</a>
+                            @* <a class="btn btn-outline-success mx-2" asp-controller="Account" asp-action="RecruiterLogin">Recruiter Login</a> *@
                         }
                         else
                         {
-                            <!-- Display Username and Logout Option -->
+                            <!-- Display User's Username and Logout Option -->
                             <span class="nav-link">Welcome, @Context.Session.GetString("Username")</span>
                             <form method="post" asp-action="Logout" style="display: inline;">
                                 <button type="submit" class="btn btn-outline-danger me-2">Logout</button>
                             </form>
+                        }
+
+                        @if (string.IsNullOrEmpty(Context.Session.GetString("RecruiterUsername")))
+                        {
+                            <!-- Show Recruiter Login Link if not logged in -->
+                            <a class="btn btn-outline-primary mx-2" asp-controller="Account" asp-action="RecruiterLogin">Recruiter Login</a>
+                        }
+                        else
+                        {
+                            <!-- Inside your layout file (_Layout.cshtml) -->
+                            <div class="d-flex justify-content-end">
+                                @if (string.IsNullOrEmpty(Context.Session.GetString("RecruiterUsername")))
+                                {
+                                    <!-- Show Recruiter Login Link if not logged in -->
+                                    <a class="btn btn-outline-primary mx-2" asp-controller="Account" asp-action="RecruiterLogin">Recruiter Login</a>
+                                }
+                                else
+                                {
+                                    <!-- Display Recruiter's Username and Logout Option -->
+                                    <span class="nav-link">Welcome, @Context.Session.GetString("RecruiterUsername")</span>
+                                    <form method="post" asp-action="Logout" style="display: inline;">
+                                        <button type="submit" class="btn btn-outline-danger me-2">Logout</button>
+                                    </form>
+                                }
+                            </div>
+
+
                         }
                     </div>
                 </div>
@@ -95,6 +123,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
-
 </body>
+
 </html>
