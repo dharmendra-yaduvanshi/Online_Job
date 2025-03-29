@@ -23,6 +23,10 @@ namespace Online_Job.Controllers
             // Validate entered credentials
             if (username == storedUsername && password == storedPassword)
             {
+                // Set session data after successful login
+                HttpContext.Session.SetString("IsAuthenticated", "true");
+                HttpContext.Session.SetString("LoggedInUser", username);
+
                 return RedirectToAction("Index", "Home");
             }
 
@@ -41,14 +45,12 @@ namespace Online_Job.Controllers
         [HttpPost]
         public IActionResult Register(string username, string email, string password, string confirmPassword)
         {
-            // Validate that all fields are filled in
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(email))
             {
                 ViewBag.Error = "All fields are required!";
                 return View();
             }
 
-            // Check if passwords match
             if (password != confirmPassword)
             {
                 ViewBag.Error = "Passwords do not match!";
@@ -57,12 +59,11 @@ namespace Online_Job.Controllers
 
             try
             {
-                // Normally, save the user to the database here
-
-                // After successful registration, store credentials in session
+                // Store the credentials in session (or ideally, save in a database)
                 HttpContext.Session.SetString("Username", username);
                 HttpContext.Session.SetString("Password", password);
 
+                // Redirect to login page after successful registration
                 return RedirectToAction("Login", "Account");
             }
             catch (Exception ex)
@@ -78,23 +79,27 @@ namespace Online_Job.Controllers
         {
             return View();
         }
+
         // POST: Handle Recruiter Login
         [HttpPost]
-        public IActionResult RecruiterLogin(string email, string password)
+        public IActionResult RecruiterLogin(string username, string password)
         {
-            // Simple validation (Replace with proper validation logic)
-            if (email == "recruiter@example.com" && password == "password123")
-            {
-                // Store recruiter info in session after successful login
-                HttpContext.Session.SetString("RecruiterUsername", email);  // Store email in session
+            var storedUsername = HttpContext.Session.GetString("RecruiterUsername");
+            var storedPassword = HttpContext.Session.GetString("RecruiterPassword");
 
-                return RedirectToAction("Dashboard", "Recruiter");  // Redirect to Recruiter Dashboard
+            // Validate entered credentials
+            if (username == storedUsername && password == storedPassword)
+            {
+                // Set session data after successful login
+                HttpContext.Session.SetString("IsAuthenticated", "true");
+                HttpContext.Session.SetString("LoggedInUser", username);
+
+                return RedirectToAction("Index", "Home");
             }
 
-            ViewBag.Error = "Invalid email or password.";
+            ViewBag.Error = "Invalid recruiter login credentials.";
             return View();
         }
-
 
         // GET: Show Recruiter Registration Page
         [HttpGet]
@@ -105,10 +110,9 @@ namespace Online_Job.Controllers
 
         // POST: Handle Recruiter Registration
         [HttpPost]
-        public IActionResult RecruiterRegister(string companyName, string fullName, string email, string password, string confirmPassword)
+        public IActionResult RecruiterRegister(string username, string email, string password, string confirmPassword)
         {
-            // Basic input validation
-            if (string.IsNullOrEmpty(companyName) || string.IsNullOrEmpty(fullName) || string.IsNullOrEmpty(email))
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(email))
             {
                 ViewBag.Error = "All fields are required!";
                 return View();
@@ -122,10 +126,12 @@ namespace Online_Job.Controllers
 
             try
             {
-                // Save recruiter details to the database (Typically done via a service)
+                // Store the recruiter credentials in session (or ideally, save in a database)
+                HttpContext.Session.SetString("RecruiterUsername", username);
+                HttpContext.Session.SetString("RecruiterPassword", password);
 
-                // After successful registration, redirect to recruiter login page
-                return RedirectToAction("RecruiterLogin");
+                // Redirect to login page after successful registration
+                return RedirectToAction("RecruiterLogin", "Account");
             }
             catch (Exception ex)
             {
@@ -134,7 +140,7 @@ namespace Online_Job.Controllers
             }
         }
 
-        // POST: Logout User or Recruiter (Clear session data)
+        // POST: Logout User or Recruiter
         [HttpPost]
         public IActionResult Logout()
         {

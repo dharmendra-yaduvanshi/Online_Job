@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Online_Job.Models;
 using System.Diagnostics;
 
@@ -15,6 +16,11 @@ namespace Online_Job.Controllers
 
         public IActionResult Index()
         {
+            // Check if the user is authenticated and set the username in ViewBag
+            if (User.Identity.IsAuthenticated)
+            {
+                ViewBag.Username = User.Identity.Name;
+            }
             return View();
         }
 
