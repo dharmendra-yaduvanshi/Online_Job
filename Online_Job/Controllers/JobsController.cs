@@ -89,4 +89,8 @@ public class JobsController : Controller
         TempData["Message"] = "Your application has been submitted successfully!";
         return RedirectToAction("Index"); // Redirect back to the job listings page
     }
+    public IActionResult Learnmore()
+    {
+        return View();
+    }
 }

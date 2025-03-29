@@ -4,86 +4,6 @@
     ViewData["Title"] = "Job Portal";
     var username = Context.Session.GetString("Username") ?? "Guest";
 }
-
-<!-- ✅ Hero Section with Search Form -->
-<div class="container">
-    <div class="search-section text-center">
-        <h1>Over 10,000+ Jobs to Apply</h1>
-        <p>Discover top job opportunities and take the first step toward a brighter future!</p>
-
-        <form asp-controller="Job" asp-action="Search" method="get" class="search-bar d-flex flex-wrap justify-content-center">
-            <input type="text" name="jobTitle" placeholder="Search for jobs" class="form-control w-25 mx-2">
-            <input type="text" name="location" placeholder="Location" class="form-control w-25 mx-2">
-            <button type="submit" class="btn btn-primary mx-2">Search</button>
-        </form>
-    </div>
-</div>
-
-<!-- ✅ Trusted Companies -->
-<div class="container text-center mt-4">
-    <p>Trusted by</p>
-    <img src="~/img/microsoft.png" alt="Microsoft" class="trusted-logo">
-    <img src="~/img/walmart.png" alt="Walmart" class="trusted-logo">
-    <img src="~/img/accenture.png" alt="Accenture" class="trusted-logo">
-</div>
-
-<!-- ✅ Job Categories -->
-<div class="container text-center mt-4">
-    <h3>Search by Categories</h3>
-    <div class="d-flex flex-wrap justify-content-center">
-        <button class="btn btn-outline-secondary m-2">Programming</button>
-        <button class="btn btn-outline-secondary m-2">Marketing</button>
-        <button class="btn btn-outline-secondary m-2">Analytics</button>
-        <button class="btn btn-outline-secondary m-2">Design</button>
-    </div>
-</div>
-
-<!-- ✅ Latest Jobs Section -->
-<div class="container latest-jobs mt-5">
-    <h2 class="text-center">Latest Jobs</h2>
-
-    @if (Model != null && Model.Any())
-    {
-        <div class="row">
-            @foreach (var job in Model)
-            {
-                <div class="col-lg-4 col-md-6 col-sm-12">
-                    <div class="job-card">
-                        <img src="@job.CompanyLogo" alt="@job.Title" class="company-logo">
-                        <h3>@job.Title</h3>
-                        <p><strong>@job.Location</strong> | @(job.Level ?? "Any") Level</p>
-                        <p class="job-description">@job.Description</p>
-                        <div class="button-group">
-                            <form asp-action="Apply" method="get">
-                                <input type="hidden" name="jobId" value="@job.Id" />
-                                <button type="submit" class="btn btn-primary">Apply Now</button>
-                            </form>
-                            <button class="btn btn-outline-secondary">Learn More</button>
-                        </div>
-                    </div>
-                </div>
-            }
-        </div>
-
-        <!-- ✅ Pagination Controls -->
-        <div class="mt-4 d-flex justify-content-between">
-            <a class="btn btn-outline-primary @((ViewBag.CurrentPage == 1) ? "disabled" : "")"
-               asp-action="Index" asp-route-page="@(ViewBag.CurrentPage - 1)">
-                &laquo; Back
-            </a>
-            <span class="align-self-center">Page @ViewBag.CurrentPage of @ViewBag.TotalPages</span>
-            <a class="btn btn-outline-primary @((ViewBag.CurrentPage == ViewBag.TotalPages) ? "disabled" : "")"
-               asp-action="Index" asp-route-page="@(ViewBag.CurrentPage + 1)">
-                Next &raquo;
-            </a>
-        </div>
-    }
-    else
-    {
-        <p class="text-center mt-4">No jobs found.</p>
-    }
-</div>
-
 <!-- ✅ CSS Styles -->
 <style>
     /* Hero Section */
@@ -163,3 +83,84 @@
         text-align: center;
     }
 </style>
+
+
+<!-- ✅ Hero Section with Search Form -->
+<div class="container">
+    <div class="search-section text-center">
+        <h1>Over 10,000+ Jobs to Apply</h1>
+        <p>Discover top job opportunities and take the first step toward a brighter future!</p>
+
+        <form asp-controller="Job" asp-action="Search" method="get" class="search-bar d-flex flex-wrap justify-content-center">
+            <input type="text" name="jobTitle" placeholder="Search for jobs" class="form-control w-25 mx-2">
+            <input type="text" name="location" placeholder="Location" class="form-control w-25 mx-2">
+            <button type="submit" class="btn btn-primary mx-2">Search</button>
+        </form>
+    </div>
+</div>
+
+<!-- ✅ Trusted Companies -->
+<div class="container text-center mt-4">
+    <p>Trusted by</p>
+    <img src="~/img/microsoft.png" alt="Microsoft" class="trusted-logo">
+    <img src="~/img/walmart.png" alt="Walmart" class="trusted-logo">
+    <img src="~/img/accenture.png" alt="Accenture" class="trusted-logo">
+</div>
+
+<!-- ✅ Job Categories -->
+<div class="container text-center mt-4">
+    <h3>Search by Categories</h3>
+    <div class="d-flex flex-wrap justify-content-center">
+        <button class="btn btn-outline-secondary m-2">Programming</button>
+        <button class="btn btn-outline-secondary m-2">Marketing</button>
+        <button class="btn btn-outline-secondary m-2">Analytics</button>
+        <button class="btn btn-outline-secondary m-2">Design</button>
+    </div>
+</div>
+
+<!-- ✅ Latest Jobs Section -->
+<div class="container latest-jobs mt-5">
+    <h2 class="text-center">Latest Jobs</h2>
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="row">
+            @foreach (var job in Model)
+            {
+                <div class="col-lg-4 col-md-6 col-sm-12">
+                    <div class="job-card">
+                        <img src="@job.CompanyLogo" alt="@job.Title" class="company-logo">
+                        <h3>@job.Title</h3>
+                        <p><strong>@job.Location</strong> | @(job.Level ?? "Any") Level</p>
+                        <p class="job-description">@job.Description</p>
+                        <div class="button-group">
+                            <form asp-action="Apply" method="get">
+                                <input type="hidden" name="jobId" value="@job.Id" />
+                                <button type="submit" class="btn btn-primary">Apply Now</button>
+                            </form>
+                            <button class="btn btn-outline-secondary" asp-controller="Jobs" asp-action="Learnmore" asp-route-id="@job.Id">Learn More</button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!-- ✅ Pagination Controls -->
+        <div class="mt-4 d-flex justify-content-between">
+            <a class="btn btn-outline-primary @((ViewBag.CurrentPage == 1) ? "disabled" : "")"
+               asp-action="Index" asp-route-page="@(ViewBag.CurrentPage - 1)">
+                &laquo; Back
+            </a>
+            <span class="align-self-center">Page @ViewBag.CurrentPage of @ViewBag.TotalPages</span>
+            <a class="btn btn-outline-primary @((ViewBag.CurrentPage == ViewBag.TotalPages) ? "disabled" : "")"
+               asp-action="Index" asp-route-page="@(ViewBag.CurrentPage + 1)">
+                Next &raquo;
+            </a>
+        </div>
+    }
+    else
+    {
+        <p class="text-center mt-4">No jobs found.</p>
+    }
+</div>
+
