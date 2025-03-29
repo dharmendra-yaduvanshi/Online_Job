@@ -94,7 +94,7 @@ namespace Online_Job.Controllers
                 HttpContext.Session.SetString("IsAuthenticated", "true");
                 HttpContext.Session.SetString("LoggedInUser", username);
 
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Dashboard");
             }
 
             ViewBag.Error = "Invalid recruiter login credentials.";
@@ -145,7 +145,7 @@ namespace Online_Job.Controllers
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();
-            return RedirectToAction("Login", "Account");
+            return RedirectToAction("Index", "Home");
         }
     }
 }
