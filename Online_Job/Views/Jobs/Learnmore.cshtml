@@ -1,4 +1,6 @@
-﻿<style>
+﻿@model Online_Job.Models.Job
+
+<style>
     .card {
         border-radius: 10px;
     }
@@ -30,8 +32,18 @@
         margin-right: 0.3rem;
     }
 
+    .more-jobs-card {
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .job-title {
+        font-weight: bold;
+        font-size: 1.25rem;
+    }
 </style>
-@model JobPortal.Models.Job
 
 @{
     ViewData["Title"] = "Job Details";
@@ -42,7 +54,7 @@
     <!-- Job Details Card -->
     <div class="card shadow-lg p-4 mb-4">
         <div class="d-flex align-items-center mb-3">
-            <img src="~/images/company-logo.png" alt="Company Logo" class="rounded-circle me-3" style="width: 60px; height: 60px;">
+            <img src="@Model.CompanyLogo" alt="Company Logo" class="rounded-circle me-3" style="width: 60px; height: 60px;">
             <div>
                 <h2 class="fw-bold">@Model.Title</h2>
                 <p class="text-muted">
@@ -52,7 +64,7 @@
                 </p>
             </div>
             <div class="ms-auto">
-                <button class="btn btn-primary btn-lg">Apply now</button>
+                <a asp-action="Apply" asp-route-jobId="@Model.Id" class="btn btn-primary btn-lg">Apply now</a>
                 <p class="text-muted mt-2">Posted @Model.PostedDate.ToString("dd MMM, yyyy")</p>
             </div>
         </div>
@@ -60,10 +72,10 @@
 
     <!-- Job Description -->
     <div class="card shadow-sm p-4 mb-4">
-        <h4 class="fw-bold">Job description</h4>
+        <h4 class="fw-bold">Job Description</h4>
         <p>@Model.Description</p>
 
-        <h5 class="fw-bold mt-4">Key responsibilities</h5>
+        <h5 class="fw-bold mt-4">Key Responsibilities</h5>
         <ul>
             @foreach (var responsibility in Model.Responsibilities)
             {
@@ -71,7 +83,7 @@
             }
         </ul>
 
-        <h5 class="fw-bold mt-4">Skills required</h5>
+        <h5 class="fw-bold mt-4">Skills Required</h5>
         <ul>
             @foreach (var skill in Model.Skills)
             {
@@ -79,7 +91,7 @@
             }
         </ul>
 
-        <button class="btn btn-primary btn-lg mt-3">Apply now</button>
+        <a asp-action="Apply" asp-route-jobId="@Model.Id" class="btn btn-primary btn-lg mt-3">Apply now</a>
     </div>
 
     <!-- More Jobs from Company -->
@@ -89,15 +101,15 @@
             @foreach (var job in Model.RelatedJobs)
             {
                 <div class="col-md-6 mb-3">
-                    <div class="card shadow-sm p-3">
-                        <h6 class="fw-bold">@job.Title</h6>
+                    <div class="more-jobs-card">
+                        <h6 class="job-title">@job.Title</h6>
                         <p class="text-muted">
                             <i class="bi bi-geo-alt-fill"></i> @job.Location
                             <i class="bi bi-briefcase ms-2"></i> @job.Level
                         </p>
                         <div class="d-flex justify-content-between">
-                            <a asp-action="JobDetails" asp-route-id="@job.Id" class="btn btn-primary btn-sm">Apply now</a>
-                            <a asp-action="JobDetails" asp-route-id="@job.Id" class="btn btn-secondary btn-sm">Learn more</a>
+                            <a asp-action="Apply" asp-route-jobId="@job.Id" class="btn btn-primary btn-sm">Apply now</a>
+                            <a asp-action="Learnmore" asp-route-id="@job.Id" class="btn btn-secondary btn-sm">Learn more</a>
                         </div>
                     </div>
                 </div>

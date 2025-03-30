@@ -84,7 +84,6 @@
     }
 </style>
 
-
 <!-- ✅ Hero Section with Search Form -->
 <div class="container">
     <div class="search-section text-center">
@@ -138,7 +137,7 @@
                                 <input type="hidden" name="jobId" value="@job.Id" />
                                 <button type="submit" class="btn btn-primary">Apply Now</button>
                             </form>
-                            <button class="btn btn-outline-secondary" asp-controller="Jobs" asp-action="Learnmore" asp-route-id="@job.Id">Learn More</button>
+                            <a asp-controller="Jobs" asp-action="Learnmore" asp-route-id="@job.Id" class="btn btn-outline-secondary">Learn More</a>
                         </div>
                     </div>
                 </div>
@@ -163,4 +162,3 @@
         <p class="text-center mt-4">No jobs found.</p>
     }
 </div>
-
