@@ -20,7 +20,7 @@ public class JobsController : Controller
             new Job { Id = 3, Title = "Data Scientist", Location = "Bangalore", Level = "Intermediate",
                       Description = "Work with big data analytics.", CompanyLogo = "/img/slack.png" },
             new Job { Id = 4, Title = "UX/UI Designer", Location = "Mumbai", Level = "Junior",
-                      Description = "Design user interfaces and experiences.", CompanyLogo = "/img/google.png" },
+                      Description = "Design user interfaces and experiences.", CompanyLogo = "/img/google.png" }, 
             new Job { Id = 5, Title = "Backend Developer", Location = "Chennai", Level = "Senior",
                       Description = "Work with server-side technologies.", CompanyLogo = "/img/amazon.png" },
             new Job { Id = 6, Title = "Machine Learning Engineer", Location = "Hyderabad", Level = "Intermediate",
