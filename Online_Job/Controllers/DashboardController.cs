@@ -39,4 +39,3 @@ namespace Online_Job.Controllers
         }
     }
 }
-adb
