@@ -3,58 +3,6 @@
     var username = Context.Session.GetString("Username");
 }
 
-@* <!-- Navigation Bar -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container">
-        <a class="navbar-brand fw-bold" href="#">Job Portal</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button> *@
- @*        @{
-            var reciterusername = Context.Session.GetString("Username");
-            var recruiterUsername = Context.Session.GetString("RecruiterUsername");
-        }
-
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="/">Job Portal</a>
-            <div class="collapse navbar-collapse">
-                <ul class="navbar-nav ms-auto">
-                    @if (!string.IsNullOrEmpty(username))
-                    {
-                        <li class="nav-item">
-                            <span class="nav-link">Welcome, @username</span>
-                        </li>
-                        <li class="nav-item">
-                            <form method="post" asp-controller="Account" asp-action="Logout">
-                                <button type="submit" class="btn btn-outline-danger">Logout</button>
-                            </form>
-                        </li>
-                    }
-                    else if (!string.IsNullOrEmpty(recruiterUsername))
-                    {
-                        <li class="nav-item">
-                            <span class="nav-link">Welcome, @recruiterUsername</span>
-                        </li>
-                        <li class="nav-item">
-                            <form method="post" asp-controller="Account" asp-action="Logout">
-                                <button type="submit" class="btn btn-outline-danger">Logout</button>
-                            </form>
-                        </li>
-                    }
-                    else
-                    {
-                        <li class="nav-item">
-                            <a class="btn btn-outline-primary mx-1" asp-controller="Account" asp-action="Login">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="btn btn-outline-success mx-1" asp-controller="Account" asp-action="RecruiterLogin">Recruiter Login</a>
-                        </li>
-                    }
-                </ul>
-            </div>
-        </nav>
-
-    </div> *@
 </nav>
 
 <!-- Hero Section -->
@@ -64,6 +12,8 @@
         <h1 class="display-3 fw-bold">Find Your Dream Job</h1>
         <p class="lead">Connecting job seekers with top companies worldwide.</p>
         <a href="/Jobs" class="btn btn-primary btn-lg">Browse Jobs</a>
+
+       
     </div>
 </div>
 
@@ -93,6 +43,46 @@
     </div>
 </div>
 
+<!-- Login Modal -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-primary" id="loginModalLabel">Login</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @if (ViewBag.Error != null)
+                {
+                    <div class="alert alert-danger">@ViewBag.Error</div>
+                }
+
+                <form method="post" asp-controller="Account" asp-action="Login">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Username</label>
+                        <input type="text" name="username" class="form-control" placeholder="Enter your username" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Password</label>
+                        <input type="password" name="password" class="form-control" placeholder="Enter your password" required />
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Login</button>
+                </form>
+
+                <div class="text-center mt-3">
+                    <p>
+                        Don't have an account?
+                        <a asp-controller="Account" asp-action="Register" class="text-decoration-none text-primary fw-bold">Register</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 <!-- Custom CSS -->
 <style>
     .hero-section {
@@ -110,7 +100,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
+            background: RGB(31, 62, 117);
         }
 
         .hero-section .content {
@@ -121,5 +111,14 @@
     .search-bar {
         background: white;
         border-radius: 10px;
+    }
+
+    .modal-content {
+        border-radius: 10px;
+    }
+
+    .btn-outline-light:hover {
+        color: white;
+        background-color: blue;
     }
 </style>
