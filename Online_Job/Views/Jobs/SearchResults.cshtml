@@ -1,0 +1,18 @@
+﻿@model List<Online_Job.Models.Job>
+
+<h2>Search Results</h2>
+<p>@ViewBag.Message</p>
+
+@if (Model != null && Model.Any())
+{
+    <ul>
+        @foreach (var job in Model)
+        {
+            <li>@job.Title - @job.Location - @job.Level</li>
+        }
+    </ul>
+}
+else
+{
+    <p>No jobs found.</p>
+}

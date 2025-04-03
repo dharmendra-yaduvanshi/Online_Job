@@ -4,7 +4,7 @@
 
 <div class="container mt-5">
     <div class="card shadow-lg p-4" style="max-width: 400px; margin: 0 auto;">
-        <h2 class="text-center mb-4 text-success">Recuiter Login</h2>
+        <h2 class="text-center mb-4 text-primary">Recuiter Login</h2>
 
         @if (ViewBag.Error != null)
         {
@@ -20,13 +20,13 @@
                 <label class="form-label fw-bold">Password</label>
                 <input type="password" name="password" class="form-control" placeholder="Enter your password" required />
             </div>
-            <button type="submit" class="btn btn-success w-100">Login</button>
+            <button type="submit" class="btn btn-primary w-100">Login</button>
         </form>
 
         <div class="text-center mt-3">
             <p>
                 Don't have an account?
-                <a asp-controller="Account" asp-action="RecruiterRegister" class="text-decoration-none text-success fw-bold">Register</a>
+                <a asp-controller="Account" asp-action="RecruiterRegister" class="text-decoration-none text-primary fw-bold">Register</a>
             </p>
         </div>
 </div>

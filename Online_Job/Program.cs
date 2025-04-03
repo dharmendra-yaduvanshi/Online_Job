@@ -41,17 +41,19 @@ else
     app.UseHsts();
 }
 
-// Enable session and authentication middleware
-app.UseSession();
+// Middleware configuration
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
-app.UseAuthentication();  // Make sure to call UseAuthentication before UseAuthorization
+
+// Enable session and authentication middleware
+app.UseSession();
+app.UseAuthentication();  // Call UseAuthentication before UseAuthorization
 app.UseAuthorization();
 
 // Map controller routes
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Jobs}/{action=Index}/{id?}");
 
 app.Run();

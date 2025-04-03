@@ -2,13 +2,19 @@
 
 @{
     ViewData["Title"] = "Job Portal";
+    var currentPage = ViewBag.CurrentPage ?? 1;
+    var totalPages = ViewBag.TotalPages ?? 1;
     var username = Context.Session.GetString("Username") ?? "Guest";
 }
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</head>
+
 <!-- ✅ CSS Styles -->
 <style>
     /* Hero Section */
     .search-section {
-        background: linear-gradient(to right, #1e3c72, #2a5298);
+        background: linear-gradient(90deg, #38b2ac, #2d3748);
         padding: 40px;
         color: white;
         border-radius: 12px;
@@ -20,6 +26,31 @@
         flex-wrap: wrap;
         gap: 10px;
         margin-top: 20px;
+    }
+    /* Sidebar Section */
+    .sidebar {
+        padding: 10px;
+        border-radius: 12px;
+        margin-right: 20px;
+        margin-top: 80px;
+        width: 300px;
+        flex-shrink: 0;
+    }
+    /* Less rounded corners for Apply and Search buttons */
+   /*  .btn-primary, .btn-outline-secondary {
+        border-radius: 4px; /* Adjust as needed for a sharper look */
+    } */
+
+
+    /* Main Content Layout */
+    .container.d-flex {
+        display: flex;
+        gap: 10px;
+        flex-wrap: nowrap;
+    }
+
+    .flex-fill {
+        flex-grow: 1;
     }
 
     /* Trusted Companies */
@@ -71,55 +102,162 @@
     .pagination {
         display: flex;
         justify-content: center;
-        gap: 10px;
+        gap: 5px;
     }
 
-    /* Miscellaneous */
-    h2, h3 {
-        margin-bottom: 20px;
+        .pagination .page-item.active .page-link {
+            background-color: #e2e6ea;
+            color: #495057;
+            border-color: #dee2e6;
+        }
+
+        .pagination .page-link {
+            color: #6c757d;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            margin: 0 2px;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .pagination .page-item.disabled .page-link {
+            color: #c0c0c0;
+        }
+
+        .pagination .page-link:hover {
+            background-color: #f8f9fa;
+            color: #495057;
+        }
+    /* Badge Size */
+    .badge {
+        font-size: 1.2rem; /* Increase the font size */
+        padding: 8px 12px; /* Increase padding for better visibility */
+        border-radius: 8px; /* Slightly rounder corners */
+    }
+    /* Adjust input padding for icons */
+    .form-control {
+        padding-left: 2.5rem;
     }
 
-    .text-center {
-        text-align: center;
+    /* Style the icons */
+    .position-absolute {
+        color: #888;
+        font-size: 1.2rem;
     }
+    .search-bar {
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    background-color: #f8f9fa;
+   
+
+}
+
+
 </style>
 
 <!-- ✅ Hero Section with Search Form -->
 <div class="container">
     <div class="search-section text-center">
         <h1>Over 10,000+ Jobs to Apply</h1>
-        <p>Discover top job opportunities and take the first step toward a brighter future!</p>
+        <p>Unlock Your Next Career Move Today – Discover Top Job Opportunities and Take
+            <br />The First Step Toward a Brighter Future!</p>
+        <form asp-controller="Jobs" asp-action="Search" method="get" class="search-bar d-flex flex-wrap justify-content-center p-2 shadow-sm rounded bg-white" style="width: 45%; margin: auto;">
+            <!-- Job Title Input with Search Icon -->
+            <div class="position-relative w-30 mx-1">
+                <i class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-2"></i>
+                <input type="text" name="jobTitle" placeholder="Search for jobs" class="form-control form-control-sm ps-4">
+            </div>
 
-        <form asp-controller="Job" asp-action="Search" method="get" class="search-bar d-flex flex-wrap justify-content-center">
-            <input type="text" name="jobTitle" placeholder="Search for jobs" class="form-control w-25 mx-2">
-            <input type="text" name="location" placeholder="Location" class="form-control w-25 mx-2">
-            <button type="submit" class="btn btn-primary mx-2">Search</button>
+            <!-- Location Input with Location Icon -->
+            <div class="position-relative w-30 mx-1">
+                <i class="bi bi-geo-alt position-absolute top-50 start-0 translate-middle-y ms-2"></i>
+                <input type="text" name="location" placeholder="Location" class="form-control form-control-sm ps-4">
+            </div>
+
+            <!-- Search Button -->
+            <button type="submit" class="btn btn-primary btn-sm mx-1">Search</button>
         </form>
+
+
+    </div>
+</div>
+<div class="card bg-light p-3 rounded-2">
+    <div class="d-flex align-items-center justify-content-center gap-4">
+        <span class="text-muted">Trusted by</span>
+        <a href="https://www.microsoft.com" target="_blank">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrM_1P2nzDRvGj1u7KthArXDJSVWWLMOSnJTCSQJMBUS08JA36zVXoeIgDqCte3HY71Q&usqp=CAU" alt="Microsoft" class="trusted-logo">
+        </a>
+        <a href="https://www.walmart.com" target="_blank">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRENYpBAINLaDDHo5VEv8-8MKyues1370ioeVzpzLVcZrRNY2epAuborGIAukhdHFN_ct4&usqp=CAU" alt="Walmart" class="trusted-logo">
+        </a>
+        <a href="https://www.accenture.com" target="_blank">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfje0X8nYmc2uEShfYsdp6m3c3_Lc7_EjkvAYBMEYmfXBo1dpuQAziE0T44LrgMnlHk74&usqp=CAU" alt="Accenture" class="trusted-logo">
+        </a>
     </div>
 </div>
 
-<!-- ✅ Trusted Companies -->
-<div class="container text-center mt-4">
-    <p>Trusted by</p>
-    <img src="~/img/microsoft.png" alt="Microsoft" class="trusted-logo">
-    <img src="~/img/walmart.png" alt="Walmart" class="trusted-logo">
-    <img src="~/img/accenture.png" alt="Accenture" class="trusted-logo">
-</div>
+<!-- ✅ Main Content with Sidebar and Job Listings -->
+<div class="container d-flex">
+    <!-- Sidebar Section -->
+    <div class="sidebar">
+        <!-- Current Search -->
+        <div class="mb-3">
+            <h5>Current Search</h5>
+            <div class="d-flex gap-2">
+                <span class="badge bg-primary ​">full stack</span>
+                <span class="badge bg-danger">bangalore</span>
+            </div>
+        </div>
 
-<!-- ✅ Job Categories -->
-<div class="container text-center mt-4">
-    <h3>Search by Categories</h3>
-    <div class="d-flex flex-wrap justify-content-center">
-        <button class="btn btn-outline-secondary m-2">Programming</button>
-        <button class="btn btn-outline-secondary m-2">Marketing</button>
-        <button class="btn btn-outline-secondary m-2">Analytics</button>
-        <button class="btn btn-outline-secondary m-2">Design</button>
+        <!-- Search by Categories -->
+        <div class="mb-3">
+            <h5>Search by Categories</h5>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <input type="checkbox" id="programming"> Programming (24)
+                </li>
+                <li class="list-group-item">
+                    <input type="checkbox" id="marketing"> Marketing (41)
+                </li>
+                <li class="list-group-item">
+                    <input type="checkbox" id="designing"> Designing (15)
+                </li>
+                <li class="list-group-item">
+                    <input type="checkbox" id="accounting"> Accounting (22)
+                </li>
+                <li class="list-group-item">
+                    <input type="checkbox" id="analytics"> Analytics (41)
+                </li>
+            </ul>
+        </div>
+
+        <!-- Search by Location -->
+        <div>
+            <h5>Search by Location</h5>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <input type="checkbox" id="bangalore"> Bangalore (24)
+                </li>
+                <li class="list-group-item">
+                    <input type="checkbox" id="hyderabad"> Hyderabad (41)
+                </li>
+                <li class="list-group-item">
+                    <input type="checkbox" id="mumbai"> Mumbai (15)
+                </li>
+                <li class="list-group-item">
+                    <input type="checkbox" id="chennai"> Chennai (22)
+                </li>
+            </ul>
+        </div>
     </div>
-</div>
+
+
 
 <!-- ✅ Latest Jobs Section -->
 <div class="container latest-jobs mt-5">
-    <h2 class="text-center">Latest Jobs</h2>
+    <h2 class="text-right">Latest Jobs</h2>
+    </<br />
+    <h9 class="text-right">Get your desired job from top companies</h9>
 
     @if (Model != null && Model.Any())
     {
@@ -145,17 +283,22 @@
         </div>
 
         <!-- ✅ Pagination Controls -->
-        <div class="mt-4 d-flex justify-content-between">
-            <a class="btn btn-outline-primary @((ViewBag.CurrentPage == 1) ? "disabled" : "")"
-               asp-action="Index" asp-route-page="@(ViewBag.CurrentPage - 1)">
-                &laquo; Back
-            </a>
-            <span class="align-self-center">Page @ViewBag.CurrentPage of @ViewBag.TotalPages</span>
-            <a class="btn btn-outline-primary @((ViewBag.CurrentPage == ViewBag.TotalPages) ? "disabled" : "")"
-               asp-action="Index" asp-route-page="@(ViewBag.CurrentPage + 1)">
-                Next &raquo;
-            </a>
-        </div>
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <li class="page-item @(currentPage == 1 ? "disabled" : "")">
+                    <a class="page-link" asp-action="Index" asp-route-page="@(currentPage - 1)">&laquo;</a>
+                </li>
+                @for (int i = 1; i <= totalPages; i++)
+                {
+                    <li class="page-item @(i == currentPage ? "active" : "")">
+                        <a class="page-link" asp-action="Index" asp-route-page="@i">@i</a>
+                    </li>
+                }
+                <li class="page-item @(currentPage == totalPages ? "disabled" : "")">
+                    <a class="page-link" asp-action="Index" asp-route-page="@(currentPage + 1)">&raquo;</a>
+                </li>
+            </ul>
+        </nav>
     }
     else
     {
