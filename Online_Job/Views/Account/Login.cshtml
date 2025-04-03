@@ -20,15 +20,17 @@
                 <label class="form-label fw-bold">Password</label>
                 <input type="password" name="password" class="form-control" placeholder="Enter your password" required />
             </div>
+            <div class="mb-3 text-start">
+                <a href="#" class="text-decoration-none text-primary">Forgot password?</a>
+            </div>
             <button type="submit" class="btn btn-primary w-100">Login</button>
         </form>
 
         <div class="text-center mt-3">
-            <p>Don't have an account?
-            <a asp-controller="Account" asp-action="Register" class="text-decoration-none text-primary fw-bold">Register</a>
+            <p>
+                Don't have an account?
+                <a asp-controller="Account" asp-action="Register" class="text-decoration-none text-primary fw-bold">Sign up</a>
             </p>
         </div>
-       
-    </div>
     </div>
 </div>

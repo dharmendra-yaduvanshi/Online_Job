@@ -1,17 +1,17 @@
 ﻿@{
-    ViewData["Title"] = "RecuiterLogin";
+    ViewData["Title"] = "RecruiterLogin";
 }
 
 <div class="container mt-5">
     <div class="card shadow-lg p-4" style="max-width: 400px; margin: 0 auto;">
-        <h2 class="text-center mb-4 text-primary">Recuiter Login</h2>
+        <h2 class="text-center mb-4 text-primary">Recruiter Login</h2>
 
         @if (ViewBag.Error != null)
         {
             <div class="alert alert-danger">@ViewBag.Error</div>
         }
 
-        <form method="post" asp-controller="Account" asp-action="RecruiterLogin">
+        <form method="post" asp-controller="Account" asp-action="Login">
             <div class="mb-3">
                 <label class="form-label fw-bold">Username</label>
                 <input type="text" name="username" class="form-control" placeholder="Enter your username" required />
@@ -20,13 +20,17 @@
                 <label class="form-label fw-bold">Password</label>
                 <input type="password" name="password" class="form-control" placeholder="Enter your password" required />
             </div>
+            <div class="mb-3 text-start">
+                <a href="#" class="text-decoration-none text-primary">Forgot password?</a>
+            </div>
             <button type="submit" class="btn btn-primary w-100">Login</button>
         </form>
 
         <div class="text-center mt-3">
             <p>
                 Don't have an account?
-                <a asp-controller="Account" asp-action="RecruiterRegister" class="text-decoration-none text-primary fw-bold">Register</a>
+                <a asp-controller="Account" asp-action="RecruiterRegister" class="text-decoration-none text-primary fw-bold">Sign up</a>
             </p>
         </div>
+    </div>
 </div>

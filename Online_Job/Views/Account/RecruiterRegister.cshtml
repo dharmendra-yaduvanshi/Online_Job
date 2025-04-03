@@ -1,17 +1,17 @@
 ﻿@{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "RecruiterRegister";
 }
 
 <div class="container mt-5">
     <div class="card shadow-lg p-4" style="max-width: 400px; margin: 0 auto;">
-        <h2 class="text-center mb-4 text-primary">Recruiter Register</h2>
+        <h2 class="text-center mb-4 text-primary">Rercuiter Register</h2>
 
         @if (ViewBag.Error != null)
         {
             <div class="alert alert-danger">@ViewBag.Error</div>
         }
 
-        <form method="post" asp-controller="Account" asp-action="Register">
+        <form method="post" asp-controller="Account" asp-action="RecruiterRegister">
             <div class="mb-3">
                 <label class="form-label fw-bold">Username</label>
                 <input type="text" name="username" class="form-control" placeholder="Enter your username" required />
@@ -32,7 +32,7 @@
         </form>
 
         <div class="text-center mt-3">
-            <p>Already have an account? <a asp-controller="Account" asp-action="Login">Login</a></p>
+            <p>Already have an account? <a asp-controller="Account" asp-action="RecruiterLogin">Login</a></p>
         </div>
     </div>
 </div>
