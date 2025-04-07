@@ -94,7 +94,7 @@ namespace Online_Job.Controllers
                 HttpContext.Session.SetString("IsAuthenticated", "true");
                 HttpContext.Session.SetString("LoggedInUser", username);
 
-                return RedirectToAction("Index", "jobs");
+                return RedirectToAction("managejobs", "Dashboard");
             }
 
             ViewBag.Error = "Invalid recruiter login credentials.";

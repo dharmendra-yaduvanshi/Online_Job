@@ -1,0 +1,186 @@
+﻿@model List<Online_Job.Models.ApplicationViewModel>
+
+@{
+    ViewData["Title"] = "Jobs Applied";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+<style>
+    body {
+        background-color: #e5e5e5;
+    }
+
+    .resume-container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+        padding: 2rem 1rem;
+    }
+
+    .resume-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #1a1a1a;
+    }
+
+    .resume-buttons {
+        display: flex;
+        gap: 0.75rem;
+    }
+
+
+    .btn {
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 500;
+    }
+
+    .btn-resume {
+        background-color: #d4e3f3;
+        color: #0073ff;
+    }
+
+    .btn-edit {
+        background-color: transparent;
+        color: gray;
+        border: 2px solid gray;
+    }
+
+    .btn-upload {
+        background-color: #0073ff;
+        color: white;
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        border: none;
+    }
+
+        .btn-upload i {
+            font-size: 1.2rem;
+        }
+
+    .table td img {
+        width: 30px;
+        height: 30px;
+        object-fit: contain;
+        margin-right: 10px;
+    }
+
+    .badge {
+        padding: 6px 12px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    .badge-pending {
+        background-color: #e6f0ff;
+        color: #007bff;
+    }
+
+    .badge-accepted {
+        background-color: #d4f7dc;
+        color: #28a745;
+    }
+
+    .badge-rejected {
+        background-color: #ffe3e3;
+        color: #dc3545;
+    }
+
+    .custom-card {
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+    .table th {
+        font-weight: 600;
+    }
+
+    .user-panel {
+        position: absolute;
+        top: 80px;
+        right: 40px;
+        background-color: white;
+        padding: 15px;
+        border-radius: 6px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+</style>
+
+<!-- Resume Buttons Section -->
+<div class="resume-container">
+    <div class="resume-title">Your Resume</div>
+    <div class="resume-buttons">
+        <button class="btn btn-resume">Resume</button>
+        <button class="btn btn-edit">Edit</button>
+        <button class="btn btn-upload">
+            <i class="fas fa-cloud-upload-alt"></i>
+        </button>
+    </div>
+</div>
+
+<!-- Jobs Applied Table -->
+<div class="container">
+    <h4 class="mb-3 fw-semibold">Jobs Applied</h4>
+    <div class="table-responsive">
+        <table class="table custom-card bg-white text-center align-middle">
+            <thead class="bg-light">
+                <tr>
+                    <th>Company</th>
+                    <th>Job Title</th>
+                    <th>Location</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Count > 0)
+                {
+                    foreach (var application in Model)
+                    {
+                        string status = application.Status?.ToLower() ?? "pending";
+                        string badgeClass = status switch
+                        {
+                            "accepted" => "badge-accepted",
+                            "rejected" => "badge-rejected",
+                            _ => "badge-pending"
+                        };
+
+                        <tr>
+                            <td class="text-start ps-4">
+                                <img src="@application.CompanyLogoUrl" alt="logo" />
+                                @application.CompanyName
+                            </td>
+                            <td>@application.JobTitle</td>
+                            <td>@application.Location</td>
+                            <td>@application.AppliedDate.ToString("dd MMM, yyyy")</td>
+                            <td>
+                                <span class="badge @badgeClass text-capitalize">
+                                    @status
+                                </span>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5" class="text-center text-muted py-4">No job applications found.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

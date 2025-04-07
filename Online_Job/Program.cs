@@ -1,36 +1,37 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using System;
+using Microsoft.EntityFrameworkCore;
+using Online_Job.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add services to the container
 builder.Services.AddControllersWithViews();
 
-// Add authentication services
+// Add DbContext with connection string
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Add cookie-based authentication
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
         options.LoginPath = "/Account/Login";
         options.LogoutPath = "/Account/Logout";
-        options.ExpireTimeSpan = TimeSpan.FromMinutes(30); // Cookie expiration
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
     });
 
-// Add session services
-builder.Services.AddDistributedMemoryCache(); // Session uses in-memory cache
+// Add session support
+builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(30); // Set session timeout
-    options.Cookie.HttpOnly = true;  // Ensure that the session cookie is only accessible by HTTP requests
-    options.Cookie.IsEssential = true; // Make the session cookie essential
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
 });
 
-// Build the app
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configure the HTTP request pipeline
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
@@ -41,19 +42,17 @@ else
     app.UseHsts();
 }
 
-// Middleware configuration
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
 app.UseRouting();
 
-// Enable session and authentication middleware
 app.UseSession();
-app.UseAuthentication();  // Call UseAuthentication before UseAuthorization
+app.UseAuthentication();
 app.UseAuthorization();
 
-// Map controller routes
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Jobs}/{action=Index}/{id?}");
+    pattern: "{controller=jobs}/{action=Index}/{id?}");
 
 app.Run();

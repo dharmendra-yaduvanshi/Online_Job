@@ -10,9 +10,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </head>
 
-<!-- ✅ CSS Styles -->
 <style>
-    /* Hero Section */
     .search-section {
         background: linear-gradient(90deg, #38b2ac, #2d3748);
         padding: 40px;
@@ -26,8 +24,20 @@
         flex-wrap: wrap;
         gap: 10px;
         margin-top: 20px;
+        border: 1px solid #ddd;
+        border-radius: 15px;
+        background-color: #f8f9fa;
     }
-    /* Sidebar Section */
+
+    .form-control {
+        padding-left: 2.5rem;
+    }
+
+    .position-absolute {
+        color: #888;
+        font-size: 1.2rem;
+    }
+
     .sidebar {
         padding: 10px;
         border-radius: 12px;
@@ -36,273 +46,292 @@
         width: 300px;
         flex-shrink: 0;
     }
-    /* Less rounded corners for Apply and Search buttons */
-   /*  .btn-primary, .btn-outline-secondary {
-        border-radius: 4px; /* Adjust as needed for a sharper look */
-    } */
 
-
-    /* Main Content Layout */
     .container.d-flex {
         display: flex;
         gap: 10px;
         flex-wrap: nowrap;
     }
 
-    .flex-fill {
-        flex-grow: 1;
-    }
-
-    /* Trusted Companies */
     .trusted-logo {
         height: 40px;
         margin: 10px 15px;
     }
 
-    /* Job Categories */
-    .categories-section {
-        text-align: center;
-        margin-bottom: 30px;
-    }
-
-    /* Job Card */
     .job-card {
         background: white;
         padding: 20px;
-        border-radius: 10px;
+        border-radius: 12px;
         box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-        text-align: center;
+        text-align: left;
         margin: 15px 0;
         transition: transform 0.3s ease-in-out, box-shadow 0.3s;
+        border: 1px solid #ddd;
+        max-width: 350px;
+        position: relative;
     }
 
-        .job-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15);
-        }
+    .job-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15);
+    }
 
     .company-logo {
-        height: 60px;
+        height: 50px;
         margin-bottom: 10px;
+    }
+
+    .slack-logo {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        width: 40px;
+        height: 40px;
+        object-fit: contain;
+    }
+
+    .job-card h3 {
+        font-size: 18px;
+        font-weight: bold;
+        margin-top: 10px;
+        margin-bottom: 5px;
+    }
+
+    .location-level {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+
+    .badge {
+        font-size: 1.2rem;
+        padding: 8px 12px;
+        border-radius: 8px;
+    }
+
+    .badge-primary {
+        background-color: #e6f7ff !important; /* Light blue */
+        color: #007bff !important; /* Blue text */
+        border: 1px solid #b3daff !important; /* Border matching the shade */
+    }
+
+    .badge-danger {
+        background-color: #fdecea !important; /* Light red */
+        color: #e74c3c !important; /* Red text */
+        border: 1px solid #f5b7b1 !important; /* Border matching the shade */
     }
 
     .job-description {
         color: #555;
         font-size: 14px;
+        min-height: 60px;
+        margin-bottom: 15px;
     }
 
     .button-group {
         display: flex;
         gap: 10px;
-        justify-content: center;
-        margin-top: 15px;
     }
 
-    /* Pagination Styles */
+    .btn-apply {
+        background-color: #007bff;
+        color: white;
+        border-radius: 8px;
+        padding: 8px 15px;
+        font-size: 14px;
+        text-align: center;
+        flex: 1;
+    }
+
+    .btn-learn {
+        background-color: white;
+        color: #007bff;
+        border: 1px solid #007bff;
+        border-radius: 8px;
+        padding: 8px 15px;
+        font-size: 14px;
+        text-align: center;
+        flex: 1;
+    }
+
+    .job-list {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        justify-content: center;
+    }
+
     .pagination {
         display: flex;
         justify-content: center;
         gap: 5px;
     }
 
-        .pagination .page-item.active .page-link {
-            background-color: #e2e6ea;
-            color: #495057;
-            border-color: #dee2e6;
-        }
-
-        .pagination .page-link {
-            color: #6c757d;
-            border: 1px solid #dee2e6;
-            border-radius: 4px;
-            margin: 0 2px;
-            min-width: 40px;
-            text-align: center;
-        }
-
-        .pagination .page-item.disabled .page-link {
-            color: #c0c0c0;
-        }
-
-        .pagination .page-link:hover {
-            background-color: #f8f9fa;
-            color: #495057;
-        }
-    /* Badge Size */
-    .badge {
-        font-size: 1.2rem; /* Increase the font size */
-        padding: 8px 12px; /* Increase padding for better visibility */
-        border-radius: 8px; /* Slightly rounder corners */
-    }
-    /* Adjust input padding for icons */
-    .form-control {
-        padding-left: 2.5rem;
+    .pagination .page-item.active .page-link {
+        background-color: #e2e6ea;
+        color: #495057;
     }
 
-    /* Style the icons */
-    .position-absolute {
-        color: #888;
-        font-size: 1.2rem;
+    .pagination .page-link {
+        color: #6c757d;
+        border: 1px solid #dee2e6;
+        border-radius: 4px;
+        margin: 0 2px;
+        min-width: 40px;
+        text-align: center;
     }
-    .search-bar {
-    border: 1px solid #ddd;
-    border-radius: 15px;
-    background-color: #f8f9fa;
-   
 
-}
+    .pagination .page-item.disabled .page-link {
+        color: #c0c0c0;
+    }
+
+    .pagination .page-link:hover {
+        background-color: #f8f9fa;
+        color: #495057;
+        }
+
+    .list-group-item input[type="checkbox"] {
+        margin-right: 18px; /* Adds space between checkbox and text */
+        transform: scale(1.2); /* Slightly increases checkbox size */
+        cursor: pointer;
+    }
+
+    .list-group-item {
+        margin-bottom: 10px; /* Adds space between each checkbox item */
+        background: none !important; /* Removes background */
+        border: none !important; /* Removes border */
+        padding: 5px 0; /* Adjust spacing */
+    }
 
 
 </style>
 
-<!-- ✅ Hero Section with Search Form -->
+<!-- ✅ Hero Section -->
 <div class="container">
     <div class="search-section text-center">
         <h1>Over 10,000+ Jobs to Apply</h1>
-        <p>Unlock Your Next Career Move Today – Discover Top Job Opportunities and Take
-            <br />The First Step Toward a Brighter Future!</p>
-        <form asp-controller="Jobs" asp-action="Search" method="get" class="search-bar d-flex flex-wrap justify-content-center p-2 shadow-sm rounded bg-white" style="width: 45%; margin: auto;">
-            <!-- Job Title Input with Search Icon -->
+        <p>Unlock Your Next Career Move Today – Discover Top Job Opportunities and Take<br />The First Step Toward a Brighter Future!</p>
+        <form asp-controller="Jobs" asp-action="Search" method="get" class="search-bar d-flex flex-wrap justify-content-center p-2 shadow-sm bg-white" style="width: 45%; margin: auto;">
             <div class="position-relative w-30 mx-1">
                 <i class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-2"></i>
                 <input type="text" name="jobTitle" placeholder="Search for jobs" class="form-control form-control-sm ps-4">
             </div>
-
-            <!-- Location Input with Location Icon -->
             <div class="position-relative w-30 mx-1">
                 <i class="bi bi-geo-alt position-absolute top-50 start-0 translate-middle-y ms-2"></i>
                 <input type="text" name="location" placeholder="Location" class="form-control form-control-sm ps-4">
             </div>
-
-            <!-- Search Button -->
             <button type="submit" class="btn btn-primary btn-sm mx-1">Search</button>
         </form>
-
-
     </div>
 </div>
+
+<!-- ✅ Trusted Companies -->
 <div class="card bg-light p-3 rounded-2">
     <div class="d-flex align-items-center justify-content-center gap-4">
         <span class="text-muted">Trusted by</span>
         <a href="https://www.microsoft.com" target="_blank">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrM_1P2nzDRvGj1u7KthArXDJSVWWLMOSnJTCSQJMBUS08JA36zVXoeIgDqCte3HY71Q&usqp=CAU" alt="Microsoft" class="trusted-logo">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrM_1P2nzDRvGj1u7KthArXDJSVWWLMOSnJTCSQJMBUS08JA36zVXoeIgDqCte3HY71Q&usqp=CAU" class="trusted-logo">
         </a>
         <a href="https://www.walmart.com" target="_blank">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRENYpBAINLaDDHo5VEv8-8MKyues1370ioeVzpzLVcZrRNY2epAuborGIAukhdHFN_ct4&usqp=CAU" alt="Walmart" class="trusted-logo">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRENYpBAINLaDDHo5VEv8-8MKyues1370ioeVzpzLVcZrRNY2epAuborGIAukhdHFN_ct4&usqp=CAU" class="trusted-logo">
         </a>
         <a href="https://www.accenture.com" target="_blank">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfje0X8nYmc2uEShfYsdp6m3c3_Lc7_EjkvAYBMEYmfXBo1dpuQAziE0T44LrgMnlHk74&usqp=CAU" alt="Accenture" class="trusted-logo">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfje0X8nYmc2uEShfYsdp6m3c3_Lc7_EjkvAYBMEYmfXBo1dpuQAziE0T44LrgMnlHk74&usqp=CAU" class="trusted-logo">
         </a>
     </div>
 </div>
 
-
-<!-- ✅ Main Content with Sidebar and Job Listings -->
+<!-- ✅ Main Content -->
 <div class="container d-flex">
-    <!-- Sidebar Section -->
+    <!-- Sidebar -->
     <div class="sidebar">
-        <!-- Current Search -->
         <div class="mb-3">
             <h5>Current Search</h5>
             <div class="d-flex gap-2">
-                <span class="badge bg-primary ​">full stack</span>
-                <span class="badge bg-danger">bangalore</span>
+                <span class="badge" style="background-color: #e6f7ff; color: #007bff; border: 1px solid #b3daff;">full stack</span>
+                <span class="badge" style="background-color: #fdecea; color: #e74c3c; border: 1px solid #f5b7b1;">bangalore</span>
+
             </div>
         </div>
-
-        <!-- Search by Categories -->
         <div class="mb-3">
             <h5>Search by Categories</h5>
             <ul class="list-group">
-                <li class="list-group-item">
-                    <input type="checkbox" id="programming"> Programming (24)
-                </li>
-                <li class="list-group-item">
-                    <input type="checkbox" id="marketing"> Marketing (41)
-                </li>
-                <li class="list-group-item">
-                    <input type="checkbox" id="designing"> Designing (15)
-                </li>
-                <li class="list-group-item">
-                    <input type="checkbox" id="accounting"> Accounting (22)
-                </li>
-                <li class="list-group-item">
-                    <input type="checkbox" id="analytics"> Analytics (41)
-                </li>
+                <li class="list-group-item"><input type="checkbox"> Programming (24)</li>
+                <li class="list-group-item"><input type="checkbox"> Marketing (41)</li>
+                <li class="list-group-item"><input type="checkbox"> Designing (15)</li>
+                <li class="list-group-item"><input type="checkbox"> Accounting (22)</li>
+                <li class="list-group-item"><input type="checkbox"> Analytics (41)</li>
+                <li class="list-group-item"><input type="checkbox"> Designing (15)</li>
+                <li class="list-group-item"><input type="checkbox"> Accounting (22)</li>
             </ul>
         </div>
-
-        <!-- Search by Location -->
         <div>
             <h5>Search by Location</h5>
             <ul class="list-group">
-                <li class="list-group-item">
-                    <input type="checkbox" id="bangalore"> Bangalore (24)
-                </li>
-                <li class="list-group-item">
-                    <input type="checkbox" id="hyderabad"> Hyderabad (41)
-                </li>
-                <li class="list-group-item">
-                    <input type="checkbox" id="mumbai"> Mumbai (15)
-                </li>
-                <li class="list-group-item">
-                    <input type="checkbox" id="chennai"> Chennai (22)
-                </li>
+                <li class="list-group-item"><input type="checkbox"> Bangalore (24)</li>
+                <li class="list-group-item"><input type="checkbox"> Hyderabad (41)</li>
+                <li class="list-group-item"><input type="checkbox"> Mumbai (15)</li>
+                <li class="list-group-item"><input type="checkbox"> Chennai (22)</li>
+                <li class="list-group-item"><input type="checkbox"> Analytic (22)</li>
+                <li class="list-group-item"><input type="checkbox"> Designing (15)</li>
+                <li class="list-group-item"><input type="checkbox"> Accounting (22)</li>
             </ul>
         </div>
     </div>
 
+    <!-- Job Listings -->
+    <div class="container latest-jobs mt-5">
+        <h2 class="text-left">Latest Jobs</h2>
+        <p class="text-left text-muted">Get your desired job from top companies</p>
 
-
-<!-- ✅ Latest Jobs Section -->
-<div class="container latest-jobs mt-5">
-    <h2 class="text-right">Latest Jobs</h2>
-    </<br />
-    <h9 class="text-right">Get your desired job from top companies</h9>
-
-    @if (Model != null && Model.Any())
-    {
-        <div class="row">
-            @foreach (var job in Model)
-            {
-                <div class="col-lg-4 col-md-6 col-sm-12">
+        @if (Model != null && Model.Any())
+        {
+            <div class="job-list">
+                @foreach (var job in Model)
+                {
                     <div class="job-card">
-                        <img src="@job.CompanyLogo" alt="@job.Title" class="company-logo">
-                        <h3>@job.Title</h3>
-                        <p><strong>@job.Location</strong> | @(job.Level ?? "Any") Level</p>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <img src="~/images/slack.png" class="slack-logo" alt="Slack Logo" style="position: static; width: 30px; height: 30px;">
+                            <h3 style="margin: 0;">@job.Title</h3>
+                        </div>
+                        <div class="location-level">
+                            <span class="badge badge-primary">@job.Location</span>
+                            <span class="badge badge-danger">@(job.Level ?? "Any Level")</span>
+                        </div>
                         <p class="job-description">@job.Description</p>
                         <div class="button-group">
                             <form asp-action="Apply" method="get">
-                                <input type="hidden" name="jobId" value="@job.Id" />
-                                <button type="submit" class="btn btn-primary">Apply Now</button>
+                                <input type="hidden" name="jobId" value="@job.Id">
+                                <button type="submit" class="btn btn-apply">Apply Now</button>
                             </form>
-                            <a asp-controller="Jobs" asp-action="Learnmore" asp-route-id="@job.Id" class="btn btn-outline-secondary">Learn More</a>
+                            <a asp-controller="Jobs" asp-action="Learnmore" asp-route-id="@job.Id" class="btn btn-learn">Learn More</a>
                         </div>
                     </div>
-                </div>
-            }
-        </div>
 
-        <!-- ✅ Pagination Controls -->
-        <nav aria-label="Page navigation">
-            <ul class="pagination">
-                <li class="page-item @(currentPage == 1 ? "disabled" : "")">
-                    <a class="page-link" asp-action="Index" asp-route-page="@(currentPage - 1)">&laquo;</a>
-                </li>
-                @for (int i = 1; i <= totalPages; i++)
-                {
-                    <li class="page-item @(i == currentPage ? "active" : "")">
-                        <a class="page-link" asp-action="Index" asp-route-page="@i">@i</a>
-                    </li>
                 }
-                <li class="page-item @(currentPage == totalPages ? "disabled" : "")">
-                    <a class="page-link" asp-action="Index" asp-route-page="@(currentPage + 1)">&raquo;</a>
-                </li>
-            </ul>
-        </nav>
-    }
-    else
-    {
-        <p class="text-center mt-4">No jobs found.</p>
-    }
+            </div>
+
+            <!-- Pagination -->
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <li class="page-item @(currentPage == 1 ? "disabled" : "")">
+                        <a class="page-link" asp-action="Index" asp-route-page="@(currentPage - 1)">&laquo;</a>
+                    </li>
+                    @for (int i = 1; i <= totalPages; i++)
+                    {
+                        <li class="page-item @(i == currentPage ? "active" : "")">
+                            <a class="page-link" asp-action="Index" asp-route-page="@i">@i</a>
+                        </li>
+                    }
+                    <li class="page-item @(currentPage == totalPages ? "disabled" : "")">
+                        <a class="page-link" asp-action="Index" asp-route-page="@(currentPage + 1)">&raquo;</a>
+                    </li>
+                </ul>
+            </nav>
+        }
+        else
+        {
+            <p class="text-center mt-4">No jobs found.</p>
+        }
+    </div>
 </div>
