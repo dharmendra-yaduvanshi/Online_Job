@@ -32,7 +32,6 @@
         gap: 0.75rem;
     }
 
-
     .btn {
         padding: 0.75rem 1.5rem;
         border: none;
@@ -119,19 +118,36 @@
     }
 </style>
 
-<!-- Resume Buttons Section -->
+<!-- Resume Section -->
 <div class="resume-container">
     <div class="resume-title">Your Resume</div>
     <div class="resume-buttons">
-        <button class="btn btn-resume">Resume</button>
-        <button class="btn btn-edit">Edit</button>
-        <button class="btn btn-upload">
-            <i class="fas fa-cloud-upload-alt"></i>
-        </button>
+        <a asp-controller="Job" asp-action="DownloadResume" class="btn btn-resume">Resume</a>
+        <a asp-controller="Job" asp-action="EditResume" class="btn btn-edit">Edit</a>
+
+        <form asp-controller="Job" asp-action="UploadResume" enctype="multipart/form-data" method="post">
+            <label for="resume-upload" class="btn btn-upload" title="Upload Resume">
+                <i class="fas fa-cloud-upload-alt"></i>
+            </label>
+            <input id="resume-upload" name="resumeFile" type="file" accept=".pdf,.doc,.docx" onchange="this.form.submit()" hidden />
+        </form>
     </div>
+
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-success mt-3">@TempData["Message"]</div>
+
+        @if (TempData["ResumeUrl"] != null)
+        {
+            <p>
+                <strong>Uploaded Resume:</strong>
+                <a href="@TempData["ResumeUrl"]" target="_blank">View Resume</a>
+            </p>
+        }
+    }
 </div>
 
-<!-- Jobs Applied Table -->
+<!-- Applied Jobs Table -->
 <div class="container">
     <h4 class="mb-3 fw-semibold">Jobs Applied</h4>
     <div class="table-responsive">
@@ -142,30 +158,29 @@
                     <th>Job Title</th>
                     <th>Location</th>
                     <th>Date</th>
-                    <th>Action</th>
+                    <th>Status</th>
                 </tr>
             </thead>
             <tbody>
                 @if (Model != null && Model.Count > 0)
                 {
-                    foreach (var application in Model)
+                    foreach (var app in Model)
                     {
-                        string status = application.Status?.ToLower() ?? "pending";
-                        string badgeClass = status switch
+                        var status = app.Status?.ToLower() ?? "pending";
+                        var badgeClass = status switch
                         {
                             "accepted" => "badge-accepted",
                             "rejected" => "badge-rejected",
                             _ => "badge-pending"
                         };
-
                         <tr>
                             <td class="text-start ps-4">
-                                <img src="@application.CompanyLogoUrl" alt="logo" />
-                                @application.CompanyName
+                                <img src="@app.CompanyLogoUrl" alt="logo" />
+                                @app.CompanyName
                             </td>
-                            <td>@application.JobTitle</td>
-                            <td>@application.Location</td>
-                            <td>@application.AppliedDate.ToString("dd MMM, yyyy")</td>
+                            <td>@app.JobTitle</td>
+                            <td>@app.Location</td>
+                            <td>@app.AppliedDate.ToString("dd MMM, yyyy")</td>
                             <td>
                                 <span class="badge @badgeClass text-capitalize">
                                     @status

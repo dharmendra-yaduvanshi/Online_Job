@@ -67,5 +67,5 @@ namespace Online_Job.Models
         public string CompanyLogoUrl { get; set; }     // URL to logo image
         public DateTime AppliedDate { get; set; }      // Application date
        
-    }
+    }   
 }

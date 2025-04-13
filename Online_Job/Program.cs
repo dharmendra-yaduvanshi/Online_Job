@@ -53,6 +53,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=jobs}/{action=Index}/{id?}");
+    pattern: "{controller=Dashboard}/{action=Addjob}/{id?}");
 
 app.Run();
