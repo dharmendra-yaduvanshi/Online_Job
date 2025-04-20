@@ -8,7 +8,7 @@ namespace Online_Job.Controllers
     {
         // GET: Show User Login Page
         [HttpGet]
-        public IActionResult Login()
+        public IActionResult Login()k
         {
             return View();
         }
