@@ -6,11 +6,14 @@
     var totalPages = ViewBag.TotalPages ?? 1;
     var username = Context.Session.GetString("Username") ?? "Guest";
 }
+
 <head>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- jQuery added -->
 </head>
 
 <style>
+    /* Your complete CSS */
     .search-section {
         background: linear-gradient(90deg, #38b2ac, #2d3748);
         padding: 40px;
@@ -31,11 +34,6 @@
 
     .form-control {
         padding-left: 2.5rem;
-    }
-
-    .position-absolute {
-        color: #888;
-        font-size: 1.2rem;
     }
 
     .sidebar {
@@ -71,10 +69,10 @@
         position: relative;
     }
 
-    .job-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15);
-    }
+        .job-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15);
+        }
 
     .company-logo {
         height: 50px;
@@ -110,15 +108,15 @@
     }
 
     .badge-primary {
-        background-color: #e6f7ff !important; /* Light blue */
-        color: #007bff !important; /* Blue text */
-        border: 1px solid #b3daff !important; /* Border matching the shade */
+        background-color: #e6f7ff !important;
+        color: #007bff !important;
+        border: 1px solid #b3daff !important;
     }
 
     .badge-danger {
-        background-color: #fdecea !important; /* Light red */
-        color: #e74c3c !important; /* Red text */
-        border: 1px solid #f5b7b1 !important; /* Border matching the shade */
+        background-color: #fdecea !important;
+        color: #e74c3c !important;
+        border: 1px solid #f5b7b1 !important;
     }
 
     .job-description {
@@ -167,43 +165,41 @@
         gap: 5px;
     }
 
-    .pagination .page-item.active .page-link {
-        background-color: #e2e6ea;
-        color: #495057;
-    }
+        .pagination .page-item.active .page-link {
+            background-color: #e2e6ea;
+            color: #495057;
+        }
 
-    .pagination .page-link {
-        color: #6c757d;
-        border: 1px solid #dee2e6;
-        border-radius: 4px;
-        margin: 0 2px;
-        min-width: 40px;
-        text-align: center;
-    }
+        .pagination .page-link {
+            color: #6c757d;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            margin: 0 2px;
+            min-width: 40px;
+            text-align: center;
+        }
 
-    .pagination .page-item.disabled .page-link {
-        color: #c0c0c0;
-    }
+        .pagination .page-item.disabled .page-link {
+            color: #c0c0c0;
+        }
 
-    .pagination .page-link:hover {
-        background-color: #f8f9fa;
-        color: #495057;
+        .pagination .page-link:hover {
+            background-color: #f8f9fa;
+            color: #495057;
         }
 
     .list-group-item input[type="checkbox"] {
-        margin-right: 18px; /* Adds space between checkbox and text */
-        transform: scale(1.2); /* Slightly increases checkbox size */
+        margin-right: 18px;
+        transform: scale(1.2);
         cursor: pointer;
     }
 
     .list-group-item {
-        margin-bottom: 10px; /* Adds space between each checkbox item */
-        background: none !important; /* Removes background */
-        border: none !important; /* Removes border */
-        padding: 5px 0; /* Adjust spacing */
+        margin-bottom: 10px;
+        background: none !important;
+        border: none !important;
+        padding: 5px 0;
     }
-
-
 </style>
 
 <!-- ✅ Hero Section -->
@@ -241,47 +237,34 @@
     </div>
 </div>
 
-
 <!-- ✅ Main Content -->
 <div class="container d-flex">
     <!-- Sidebar -->
     <div class="sidebar">
         <div class="mb-3">
-            <h5>Current Search</h5>
-            <div class="d-flex gap-2">
-                <span class="badge" style="background-color: #e6f7ff; color: #007bff; border: 1px solid #b3daff;">full stack</span>
-                <span class="badge" style="background-color: #fdecea; color: #e74c3c; border: 1px solid #f5b7b1;">bangalore</span>
-
-            </div>
-        </div>
-        <div class="mb-3">
             <h5>Search by Categories</h5>
             <ul class="list-group">
-                <li class="list-group-item"><input type="checkbox"> Programming (24)</li>
-                <li class="list-group-item"><input type="checkbox"> Marketing (41)</li>
-                <li class="list-group-item"><input type="checkbox"> Designing (15)</li>
-                <li class="list-group-item"><input type="checkbox"> Accounting (22)</li>
-                <li class="list-group-item"><input type="checkbox"> Analytics (41)</li>
-                <li class="list-group-item"><input type="checkbox"> Designing (15)</li>
-                <li class="list-group-item"><input type="checkbox"> Accounting (22)</li>
+                <li class="list-group-item"><input type="checkbox" class="category-filter" value="Programming"> Programming</li>
+                <li class="list-group-item"><input type="checkbox" class="category-filter" value="Marketing"> Marketing</li>
+                <li class="list-group-item"><input type="checkbox" class="category-filter" value="Designing"> Designing</li>
+                <li class="list-group-item"><input type="checkbox" class="category-filter" value="Accounting"> Accounting</li>
+                <li class="list-group-item"><input type="checkbox" class="category-filter" value="Analytics"> Analytics</li>
             </ul>
         </div>
+
         <div>
             <h5>Search by Location</h5>
             <ul class="list-group">
-                <li class="list-group-item"><input type="checkbox"> Bangalore (24)</li>
-                <li class="list-group-item"><input type="checkbox"> Hyderabad (41)</li>
-                <li class="list-group-item"><input type="checkbox"> Mumbai (15)</li>
-                <li class="list-group-item"><input type="checkbox"> Chennai (22)</li>
-                <li class="list-group-item"><input type="checkbox"> Analytic (22)</li>
-                <li class="list-group-item"><input type="checkbox"> Designing (15)</li>
-                <li class="list-group-item"><input type="checkbox"> Accounting (22)</li>
+                <li class="list-group-item"><input type="checkbox" class="location-filter" value="Bangalore"> Bangalore</li>
+                <li class="list-group-item"><input type="checkbox" class="location-filter" value="Hyderabad"> Hyderabad</li>
+                <li class="list-group-item"><input type="checkbox" class="location-filter" value="Mumbai"> Mumbai</li>
+                <li class="list-group-item"><input type="checkbox" class="location-filter" value="Chennai"> Chennai</li>
             </ul>
         </div>
     </div>
 
     <!-- Job Listings -->
-    <div class="container latest-jobs mt-5">
+    <div class="container latest-jobs mt-5" id="jobList">
         <h2 class="text-left">Latest Jobs</h2>
         <p class="text-left text-muted">Get your desired job from top companies</p>
 
@@ -292,7 +275,7 @@
                 {
                     <div class="job-card">
                         <div style="display: flex; align-items: center; gap: 10px;">
-                            <img src="~/images/slack.png" class="slack-logo" alt="Slack Logo" style="position: static; width: 30px; height: 30px;">
+                            <img src="~/images/slack.png" class="slack-logo" alt="Slack Logo">
                             <h3 style="margin: 0;">@job.Title</h3>
                         </div>
                         <div class="location-level">
@@ -308,7 +291,6 @@
                             <a asp-controller="Jobs" asp-action="Learnmore" asp-route-id="@job.Id" class="btn btn-learn">Learn More</a>
                         </div>
                     </div>
-
                 }
             </div>
 
@@ -336,3 +318,33 @@
         }
     </div>
 </div>
+
+<!-- ✅ jQuery AJAX for Filters -->
+<script>
+    $(document).ready(function () {
+        $(".category-filter, .location-filter").change(function () {
+            var selectedCategories = $(".category-filter:checked").map(function () {
+                return this.value;
+            }).get();
+
+            var selectedLocations = $(".location-filter:checked").map(function () {
+                return this.value;
+            }).get();
+
+            $.ajax({
+                url: '@Url.Action("FilterJobs", "Jobs")',
+                type: 'GET',
+                data: {
+                    categories: selectedCategories.join(","),
+                    locations: selectedLocations.join(",")
+                },
+                success: function (data) {
+                    $("#jobList").html(data);
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error filtering jobs:", error);
+                }
+            });
+        });
+    });
+</script>

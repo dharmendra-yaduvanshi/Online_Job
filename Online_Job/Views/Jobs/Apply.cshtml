@@ -38,14 +38,14 @@
 
         <!-- Your Name -->
         <div class="form-group mb-3">
-            <label for="userName" class="form-label">Your Name</label>
-            <input type="text" id="userName" name="userName" class="form-control" required placeholder="Enter your full name" />
+            <label for="ApplicantName" class="form-label">Your Name</label>
+            <input type="text" id="ApplicantName" name="ApplicantName" class="form-control" required placeholder="Enter your full name" />
         </div>
 
         <!-- Cover Letter -->
         <div class="form-group mb-3">
-            <label for="coverLetter" class="form-label">Cover Letter</label>
-            <textarea id="coverLetter" name="coverLetter" class="form-control" rows="5" required placeholder="Write a cover letter for the job"></textarea>
+            <label for="CoverLetter" class="form-label">Cover Letter</label>
+            <textarea id="CoverLetter" name="CoverLetter" class="form-control" rows="5" required placeholder="Write a cover letter for the job"></textarea>
         </div>
 
         <!-- File Upload (Resume) -->
@@ -111,7 +111,7 @@
     }
 
     /* Responsive Design */
-    media (max-width: 768px) {
+    (max-width: 768px) {
         .container {
             padding-left: 10px;
             padding-right: 10px;
@@ -121,11 +121,9 @@
 
 <!-- Optional JavaScript to enhance the user experience -->
 <script>
-    // Adding custom validation or enhancing form interactivity if needed
     document.querySelector('form').addEventListener('submit', function(e) {
-        // Example: simple client-side validation (add more as needed)
-        let userName = document.getElementById('userName').value.trim();
-        if (userName.length < 3) {
+        let applicantName = document.getElementById('ApplicantName').value.trim();
+        if (applicantName.length < 3) {
             e.preventDefault();  // Prevent form submission
             alert('Please enter a valid name (at least 3 characters).');
         }

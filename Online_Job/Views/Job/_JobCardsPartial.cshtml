@@ -1,0 +1,23 @@
+﻿@model List<Online_Job.Models.Job>
+
+@foreach (var job in Model)
+{
+    <div class="job-card">
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <img src="~/images/slack.png" class="slack-logo" alt="Slack Logo" style="position: static; width: 30px; height: 30px;">
+            <h3 style="margin: 0;">@job.Title</h3>
+        </div>
+        <div class="location-level">
+            <span class="badge badge-primary">@job.Location</span>
+            <span class="badge badge-danger">@(job.Level ?? "Any Level")</span>
+        </div>
+        <p class="job-description">@job.Description</p>
+        <div class="button-group">
+            <form asp-action="Apply" method="get">
+                <input type="hidden" name="jobId" value="@job.Id">
+                <button type="submit" class="btn btn-apply">Apply Now</button>
+            </form>
+            <a asp-controller="Jobs" asp-action="Learnmore" asp-route-id="@job.Id" class="btn btn-learn">Learn More</a>
+        </div>
+    </div>
+}

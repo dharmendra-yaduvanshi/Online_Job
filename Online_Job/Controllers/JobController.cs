@@ -34,61 +34,87 @@ namespace Online_Job.Controllers
             };
         }
 
-        public IActionResult Index(int page = 1)
+        // Home page with job listing, filter, and pagination
+        [HttpGet]
+        public IActionResult Index(string jobTitle, string location, int page = 1)
         {
             var jobs = GetJobList();
-            ViewBag.CurrentPage = page;
-            ViewBag.TotalPages = (int)Math.Ceiling(jobs.Count / (double)JobsPerPage);
 
+            // Filter
+            if (!string.IsNullOrEmpty(jobTitle))
+                jobs = jobs.Where(j => j.Title.Contains(jobTitle, StringComparison.OrdinalIgnoreCase)).ToList();
+
+            if (!string.IsNullOrEmpty(location))
+                jobs = jobs.Where(j => j.Location.Contains(location, StringComparison.OrdinalIgnoreCase)).ToList();
+
+            // Pagination
+            int totalJobs = jobs.Count;
+            int totalPages = (int)Math.Ceiling(totalJobs / (double)JobsPerPage);
             var pagedJobs = jobs.Skip((page - 1) * JobsPerPage).Take(JobsPerPage).ToList();
+
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = totalPages;
+            ViewBag.SearchTitle = jobTitle;
+            ViewBag.SearchLocation = location;
+
             return View(pagedJobs);
         }
 
+        // Job details
+        [HttpGet]
         public IActionResult Learnmore(int id)
         {
             var job = GetJobList().FirstOrDefault(j => j.Id == id);
             if (job == null) return NotFound();
+
             return View(job);
         }
 
+        // Apply form
+        [HttpGet]
         public IActionResult Apply(int jobId)
         {
             var job = GetJobList().FirstOrDefault(j => j.Id == jobId);
             if (job == null) return NotFound();
+
             return View(job);
         }
 
+        // Submit application
         [HttpPost]
         public IActionResult SubmitApplication(int jobId, string userName, string coverLetter)
         {
+            // You could save to DB or session here later
             TempData["Message"] = "Your application has been submitted successfully!";
             return RedirectToAction("Index");
         }
+
+        // Resume form (optional feature)
         [HttpGet]
         public IActionResult EditResume()
         {
-            return View(); // Looks for Views/Job/EditResume.cshtml
+            return View();
         }
 
+        // Search-only endpoint (not paginated)
         [HttpGet]
         public IActionResult Search(string jobTitle, string location)
         {
-            if (string.IsNullOrEmpty(jobTitle) && string.IsNullOrEmpty(location))
-            {
-                ViewBag.Message = "Please enter a job title or location.";
-                return View("SearchResults", new List<Job>());
-            }
+            var jobs = GetJobList();
 
-            var filteredJobs = GetJobList().Where(j =>
+            var filteredJobs = jobs.Where(j =>
                 (string.IsNullOrEmpty(jobTitle) || j.Title.Contains(jobTitle, StringComparison.OrdinalIgnoreCase)) &&
                 (string.IsNullOrEmpty(location) || j.Location.Contains(location, StringComparison.OrdinalIgnoreCase))
             ).ToList();
 
             ViewBag.Message = filteredJobs.Any()
                 ? $"Found {filteredJobs.Count} job(s) matching your criteria."
-                : "No jobs found.";
+                : "No jobs found matching your criteria.";
+            return View("Index", filteredJobs);
 
-            return View("SearchResults", filteredJobs);
+           /* return View("SearchResults", filteredJobs);*/
         }
     }
+
+
 }

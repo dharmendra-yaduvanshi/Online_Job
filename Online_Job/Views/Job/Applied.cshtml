@@ -107,6 +107,10 @@
         font-weight: 600;
     }
 
+    .text-center {
+        text-align: center;
+    }
+
     .user-panel {
         position: absolute;
         top: 80px;
@@ -117,6 +121,9 @@
         box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
 </style>
+
+<!-- Page Title -->
+<h1 class="text-center my-5">Your Applied Jobs</h1>
 
 <!-- Resume Section -->
 <div class="resume-container">
@@ -159,6 +166,8 @@
                     <th>Location</th>
                     <th>Date</th>
                     <th>Status</th>
+                    <th>Cover Letter</th>
+                    <th>Resume</th>
                 </tr>
             </thead>
             <tbody>
@@ -186,13 +195,24 @@
                                     @status
                                 </span>
                             </td>
+                            <td>@app.CoverLetter</td>
+                            <td>
+                                @if (!string.IsNullOrEmpty(app.ResumeUrl))
+                                {
+                                    <a href="@app.ResumeUrl" download>Download Resume</a>
+                                }
+                                else
+                                {
+                                    <span class="text-muted">Not Uploaded</span>
+                                }
+                            </td>
                         </tr>
                     }
                 }
                 else
                 {
                     <tr>
-                        <td colspan="5" class="text-center text-muted py-4">No job applications found.</td>
+                        <td colspan="7" class="text-center text-muted py-4">No job applications found.</td>
                     </tr>
                 }
             </tbody>
